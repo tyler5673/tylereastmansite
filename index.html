@@ -6,105 +6,335 @@
     <title>Tyler Eastman | Android & Fullstack Engineer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        * {
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
         :root {
-            --bg: #0a0a0a;
-            --bg-secondary: #141414;
-            --text: #fafafa;
-            --text-muted: #888;
-            --accent: #22d3ee;
-            --accent-dim: #22d3ee33;
-            --border: #262626;
+            --bg-primary: #0a0a0f;
+            --bg-card: #12121a;
+            --bg-card-hover: #1a1a25;
+            --text-primary: #f8f8f2;
+            --text-secondary: #a0a0b0;
+            --text-muted: #606070;
+            --accent: #00d4aa;
+            --accent-glow: #00d4aa33;
+            --accent-secondary: #7c5cff;
+            --border: #2a2a35;
+            --gradient-start: #00d4aa;
+            --gradient-end: #7c5cff;
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: var(--bg);
-            color: var(--text);
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             line-height: 1.6;
             min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .background::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 80% 100%, rgba(124, 92, 255, 0.1) 0%, transparent 40%);
+            animation: drift 20s ease-in-out infinite;
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(2%, 2%) rotate(1deg); }
+            66% { transform: translate(-1%, 1%) rotate(-1deg); }
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse 80% 60% at 50% 40%, black 20%, transparent 70%);
         }
 
         .container {
-            max-width: 640px;
+            max-width: 720px;
             margin: 0 auto;
-            padding: 4rem 1.5rem;
+            padding: 6rem 1.5rem 4rem;
         }
 
         header {
-            margin-bottom: 3rem;
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
         }
 
-        .avatar {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), #0891b2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 1.5rem;
-            color: var(--bg);
-        }
-
-        h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 0.5rem;
-            letter-spacing: -0.03em;
-        }
-
-        .title {
-            color: var(--text-muted);
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .title span {
-            color: var(--accent);
-        }
-
-        .experience {
+        .hero-badge {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: var(--bg-secondary);
+            background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            font-size: 0.875rem;
-            color: var(--text-muted);
+            border-radius: 3rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInDown 0.8s ease-out;
         }
 
-        .experience strong {
-            color: var(--text);
+        .hero-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 auto 1.5rem;
+            color: var(--bg-primary);
+            position: relative;
+            animation: fadeInScale 0.8s ease-out 0.1s both;
+            box-shadow: 
+                0 20px 40px -20px var(--accent-glow),
+                0 0 0 0 var(--accent-glow);
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -4px;
+            border-radius: 28px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(15px);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--text-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .title {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.8s ease-out 0.3s both;
+        }
+
+        .title span {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             font-weight: 600;
         }
 
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .stat {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 0.875rem 1.5rem;
+            border-radius: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
         section {
-            margin-bottom: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--bg-card);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
         }
 
         h2 {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
         }
 
-        p {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
+        .cards {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--gradient-start), var(--gradient-end));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: var(--text-secondary);
+            font-size: 0.925rem;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .tech {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            background: var(--bg-primary);
+            color: var(--accent);
+            padding: 0.25rem 0.625rem;
+            border-radius: 0.375rem;
+            border: 1px solid var(--border);
         }
 
         .links {
@@ -116,138 +346,224 @@
         .link {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            padding: 0.875rem 1rem;
-            background: var(--bg-secondary);
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 0.5rem;
+            border-radius: 1rem;
             text-decoration: none;
-            color: var(--text);
-            transition: all 0.2s ease;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
         }
 
         .link:hover {
+            background: var(--bg-card-hover);
             border-color: var(--accent);
-            background: var(--accent-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px -10px var(--accent-glow);
         }
 
         .link-icon {
-            width: 20px;
-            height: 20px;
-            opacity: 0.7;
+            width: 24px;
+            height: 24px;
+            opacity: 0.8;
+            flex-shrink: 0;
         }
 
-        .link span {
+        .link-content {
             flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
-        .link-arrow {
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .about-grid {
-            display: grid;
-            gap: 1rem;
-        }
-
-        .about-card {
-            background: var(--bg-secondary);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1.25rem;
-        }
-
-        .about-card h3 {
-            font-size: 0.875rem;
+        .link-title {
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
+            font-size: 0.95rem;
         }
 
-        .about-card p {
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        code {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85em;
-            background: var(--bg);
-            padding: 0.2em 0.4em;
-            border-radius: 0.25rem;
-            color: var(--accent);
-        }
-
-        footer {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-            text-align: center;
+        .link-subtitle {
             font-size: 0.8rem;
             color: var(--text-muted);
         }
 
+        .link-arrow {
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .link:hover .link-arrow {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        footer {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            margin-top: 2rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.875rem;
+        }
+
+        .location {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent);
+        }
+
         @media (min-width: 640px) {
-            .about-grid {
+            .cards {
                 grid-template-columns: 1fr 1fr;
+            }
+
+            .links {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+
+            .link {
+                flex: 1;
+                min-width: 200px;
             }
         }
     </style>
 </head>
 <body>
+    <div class="background">
+        <div class="grid-pattern"></div>
+    </div>
+
     <div class="container">
         <header>
+            <div class="hero-badge">
+                Available for projects
+            </div>
             <div class="avatar">TE</div>
             <h1>Tyler Eastman</h1>
             <p class="title">Android Engineer <span>&</span> Fullstack Developer</p>
-            <div class="experience">
-                <strong>20+ years</strong> building software
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-value">20+</span>
+                    <span class="stat-label">Years Experience</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">∞</span>
+                    <span class="stat-label">Location Free</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3</span>
+                    <span class="stat-label">Kids</span>
+                </div>
             </div>
         </header>
 
         <section>
-            <h2>About</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <h3>👨‍💻 Engineering</h3>
-                    <p>Two decades shipping products at scale. Android, Kotlin, Java, TypeScript, React, Node. Currently building in the AI/LLM space.</p>
+            <div class="section-header">
+                <div class="section-icon">💻</div>
+                <h2>What I Do</h2>
+            </div>
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🤖</span>
+                        <h3>Android Development</h3>
+                    </div>
+                    <p>Two decades shipping mobile apps at scale. Kotlin, Java, Jetpack Compose, clean architecture. Built apps used by millions.</p>
+                    <div class="tech-stack">
+                        <span class="tech">Kotlin</span>
+                        <span class="tech">Java</span>
+                        <span class="tech">Jetpack</span>
+                        <span class="tech">Compose</span>
+                    </div>
                 </div>
-                <div class="about-card">
-                    <h3>🌍 Nomad Life</h3>
-                    <p>Father of 3. Living location-independent, chasing good weather and new adventures around the world.</p>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🌐</span>
+                        <h3>Fullstack</h3>
+                    </div>
+                    <p>TypeScript, React, Node.js, Python. From API design to polished UI, I ship complete products end-to-end.</p>
+                    <div class="tech-stack">
+                        <span class="tech">TypeScript</span>
+                        <span class="tech">React</span>
+                        <span class="tech">Node</span>
+                        <span class="tech">Python</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">✈️</span>
+                        <h3>Flight Simulation</h3>
+                    </div>
+                    <p>Currently building <a href="https://soaringvibes.com" target="_blank" style="color: var(--accent);">soaringvibes.com</a> — flight simulation software for the enthusiast community.</p>
+                    <div class="tech-stack">
+                        <span class="tech">WebGL</span>
+                        <span class="tech">Three.js</span>
+                        <span class="tech">Real-time</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <span class="card-icon">🌍</span>
+                        <h3>Nomad Life</h3>
+                    </div>
+                    <p>Father of 3, location-independent. Chasing good weather and new adventures around the world while shipping great software.</p>
+                    <div class="tech-stack">
+                        <span class="tech">Remote</span>
+                        <span class="tech">Async</span>
+                        <span class="tech">Global</span>
+                    </div>
                 </div>
             </div>
         </section>
 
         <section>
-            <h2>Links</h2>
+            <div class="section-header">
+                <div class="section-icon">🔗</div>
+                <h2>Connect</h2>
+            </div>
             <div class="links">
                 <a href="https://github.com/tyler5673" target="_blank" class="link">
                     <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    <span>github.com/tyler5673</span>
+                    <div class="link-content">
+                        <span class="link-title">GitHub</span>
+                        <span class="link-subtitle">@tyler5673</span>
+                    </div>
                     <span class="link-arrow">→</span>
                 </a>
                 <a href="https://soaringvibes.com" target="_blank" class="link">
                     <svg class="link-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-                    <span>soaringvibes.com</span>
+                    <div class="link-content">
+                        <span class="link-title">Soaring Vibes</span>
+                        <span class="link-subtitle">Flight Simulation Software</span>
+                    </div>
                     <span class="link-arrow">→</span>
                 </a>
                 <a href="https://instagram.com/tylereastmanadventures" target="_blank" class="link">
                     <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                    <span>@tylereastmanadventures</span>
+                    <div class="link-content">
+                        <span class="link-title">Instagram</span>
+                        <span class="link-subtitle">@tylereastmanadventures</span>
+                    </div>
                     <span class="link-arrow">→</span>
                 </a>
                 <a href="https://tiktok.com/@tylereastmanmusic" target="_blank" class="link">
                     <svg class="link-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-5.2 1.74 2.89 2.89 0 012.31-4.64 2.93 2.93 0 01.88.13V9.4a6.84 6.84 0 00-1-.05A6.33 6.33 0 005 20.1a6.34 6.34 0 0010.86-4.43v-7a8.16 8.16 0 004.77 1.52v-3.4a4.85 4.85 0 01-1-.1z"/></svg>
-                    <span>@tylereastmanmusic</span>
+                    <div class="link-content">
+                        <span class="link-title">TikTok</span>
+                        <span class="link-subtitle">@tylereastmanmusic</span>
+                    </div>
                     <span class="link-arrow">→</span>
                 </a>
             </div>
         </section>
 
         <footer>
-            <p>Based everywhere.</p>
+            <p>Currently somewhere with good weather ☀️</p>
         </footer>
     </div>
 </body>
